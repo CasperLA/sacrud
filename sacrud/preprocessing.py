@@ -130,6 +130,8 @@ class RequestPreprocessing(object):
                     (value, 'Valid example: {"foo": "bar", u"baz": u"biz"}'))
 
     def _check_date(self, value):
+        if not value:
+            return None
         if isinstance(value, (date, datetime)):
             return value
         # XXX: I feel the dissonance here
