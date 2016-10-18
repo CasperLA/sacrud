@@ -133,6 +133,14 @@ def get_pk(obj):
         pk_list = obj.__mapper__.primary_key
     return pk_list
 
+from uuid import UUID
+class ComplexEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, UUID):
+            return str(obj)
+        # Let the base class default method raise the TypeError
+        return json.JSONEncoder.default(self, obj)
+
 
 def pk_to_list(obj, as_json=False):
     pk_list = []
@@ -142,7 +150,7 @@ def pk_to_list(obj, as_json=False):
         pk_list.append(item_name)
         pk_list.append(getattr(obj, item_name))
     if as_json:
-        return json.dumps(pk_list)
+        return json.dumps(pk_list, cls=ComplexEncoder)
     return pk_list
 
 
