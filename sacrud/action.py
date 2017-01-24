@@ -114,7 +114,12 @@ class CRUD(object):
             return get_obj(self.session, self.table, pk[0])
         elif len(pk) > 1:  # like (1, 2, 3, 4, 5)
             return get_obj(self.session, self.table, pk)
-        return self.session.query(self.table)
+        query = self.session.query(self.table)
+        if hasattr(self.table, "sacrud_args"):
+            for field in self.table.sacrud_args.get('order_by', list()):
+                query = query.order_by(getattr(self.table, field))
+        return query
+
 
     def update(self, pk, data, **kwargs):
         """
