@@ -158,7 +158,7 @@ class RequestPreprocessing(object):
             value = value[0]
 
         if not isinstance(value, sqlalchemy.sql.elements.Null) \
-                and not value \
+                and value is None \
                 and not hasattr(value, 'filename')\
                 and not column_type == 'Boolean':
             if self.column.default or self.column.primary_key:
