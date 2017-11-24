@@ -157,7 +157,8 @@ class RequestPreprocessing(object):
                 column_type not in ['JSON', 'JSONB', 'HSTORE']:
             value = value[0]
 
-        if not isinstance(value, sqlalchemy.sql.elements.Null) and not value\
+        if not isinstance(value, sqlalchemy.sql.elements.Null) \
+                and not value \
                 and not hasattr(value, 'filename')\
                 and not column_type == 'Boolean':
             if self.column.default or self.column.primary_key:
