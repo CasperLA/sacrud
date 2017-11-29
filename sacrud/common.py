@@ -90,7 +90,8 @@ def get_obj(session, table, pk):
     def composite_pk_clauses(pk):
         clauses = []
         for item in pk_list:
-            clauses.append(getattr(table, item.name) == pk[item.name])
+            val = None if pk[item.name] == 'None' else pk[item.name]
+            clauses.append(getattr(table, item.name) == val)
         return and_(*clauses)
 
     query = session.query(table)
